@@ -3,7 +3,6 @@ package com.javaops.webapp.storage;
 import com.javaops.webapp.model.Resume;
 
 import java.util.Arrays;
-import java.util.Scanner;
 
 /**
  * Array based storage for Resumes
@@ -18,61 +17,50 @@ public class ArrayStorage {
         System.out.println("The array has been cleared");
     }
 
-    public void save(Resume r) {
+    private int findResume(String uuid) {
         for (int i = 0; i < size; i++) {
-            if ((storage[i]).getUuid().equalsIgnoreCase(r.getUuid())) {
-                System.out.println("The resume " + r + " already exists. You can update it.");
-                return;
+            if (storage[i].getUuid().equalsIgnoreCase(uuid)) {
+                return i;
             }
         }
-        if (size < storage.length) {
-            storage[size] = r;
-            size++;
+        return -1;
+    }
+
+    public void save(Resume r) {
+        String uuid = r.getUuid();
+        int existing = findResume(uuid);
+        if (existing != -1) {
+            System.out.println("A resume with that name already exists. You can update it.");
         } else {
-            System.out.println("Not enough space to insert a new resume." +
-                    "\n First delete an unnecessary resume and try again.");
+            if (size < storage.length) {
+                storage[size] = r;
+                size++;
+            } else {
+                System.out.println("Not enough space to insert a new resume." +
+                        "\n First delete an unnecessary resume and try again.");
+            }
         }
     }
 
     public void update(Resume r) {
-        Scanner sc = new Scanner(System.in);
-        int index = -1;
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(r.getUuid())) {
-                System.out.println("The resume " + r + " will be updated. Enter the desired change: ");
-                Resume r1 = new Resume();
-                r1.setUuid(sc.nextLine().toLowerCase());
-                System.out.println("The resume " + r + "  has been updated to " + r1 + ".");
-                storage[i] = r1;
-                index = i;
-                break;
-            }
-        }
-        if (index == -1) {
-            System.out.println("The resume " + r + " not found. \n" +
-                    "Unable to update a resume that does not exist");
-        }
+        int i = findResume(r.getUuid());
+        storage[i] = r;
+        System.out.println("The resume " + r + " updated.");
     }
 
     public Resume get(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                return storage[i];
-            }
+        int i = findResume(uuid);
+        if (i != -1) {
+            return storage[i];
+        } else {
+            System.out.println("No resume found.");
+            return null;
         }
-        System.out.println("No resume found.");
-        return null;
     }
 
     public void delete(String uuid) {
-        int i, index = -1;
-        for (i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                index = i;
-                break;
-            }
-        }
-        if (index == -1) {
+        int i = findResume(uuid);
+        if (i == -1) {
             System.out.println("The resume " + uuid + " not found. \n" +
                     "Unable to delete a resume that does not exist. \n" +
                     "Please repeat input.");
