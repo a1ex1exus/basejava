@@ -7,7 +7,7 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes
  */
-public class ArrayStorage implements Storage {
+public class ArrayStorage extends AbstractArrayStorage {
     private static final int STORAGE_LIMIT = 10000;
 
     private final Resume[] storage = new Resume[STORAGE_LIMIT];
@@ -21,7 +21,7 @@ public class ArrayStorage implements Storage {
 
     public void save(Resume r) {
         String uuid = r.getUuid();
-        int index = findResume(uuid);
+        int index = getIndex(uuid);
         if (index != -1) {
             System.out.println("A resume " + r + " already exists. You can update it.");
         } else {
@@ -36,7 +36,7 @@ public class ArrayStorage implements Storage {
     }
 
     public void update(Resume r) {
-        int i = findResume(r.getUuid());
+        int i = getIndex(r.getUuid());
         if (i != -1) {
             storage[i] = r;
             System.out.println("The resume " + r + " updated.");
@@ -48,17 +48,8 @@ public class ArrayStorage implements Storage {
         }
     }
 
-    public Resume get(String uuid) {
-        int i = findResume(uuid);
-        if (i != -1) {
-            return storage[i];
-        }
-        System.out.println("No resume found.");
-        return null;
-    }
-
     public void delete(String uuid) {
-        int index = findResume(uuid);
+        int index = getIndex(uuid);
         if (index != -1) {
             storage[index] = storage[size - 1];
             storage[size - 1] = null;
@@ -71,15 +62,6 @@ public class ArrayStorage implements Storage {
         }
     }
 
-    private int findResume(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equalsIgnoreCase(uuid)) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
     /**
      * @return array, contains only Resumes in storage (without null)
      */
@@ -87,7 +69,14 @@ public class ArrayStorage implements Storage {
         return Arrays.copyOfRange(storage, 0, size);
     }
 
-    public int size() {
-        return size;
+    protected int getIndex(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].getUuid().equalsIgnoreCase(uuid)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
+
+
