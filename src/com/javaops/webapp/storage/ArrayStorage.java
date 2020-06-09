@@ -2,8 +2,6 @@ package com.javaops.webapp.storage;
 
 import com.javaops.webapp.model.Resume;
 
-import java.util.Arrays;
-
 /**
  * Array based storage for Resumes
  */
@@ -12,12 +10,6 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     private final Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size = 0;
-
-    public void clear() {
-        Arrays.fill(storage, 0, size, null);
-        size = 0;
-        System.out.println("The array has been cleared");
-    }
 
     public void save(Resume r) {
         String uuid = r.getUuid();
@@ -48,6 +40,15 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
     }
 
+    public Resume get(String uuid) {
+        int index = getIndex(uuid);
+        if (index != -1) {
+            return storage[index];
+        }
+        System.out.println("Resume " + uuid + " not exist.");
+        return null;
+    }
+
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index != -1) {
@@ -65,9 +66,6 @@ public class ArrayStorage extends AbstractArrayStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    public Resume[] getAll() {
-        return Arrays.copyOfRange(storage, 0, size);
-    }
 
     protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
