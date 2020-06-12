@@ -20,13 +20,14 @@ public abstract class AbstractArrayStorage implements Storage {
         String uuid = r.getUuid();
         int index = getIndex(uuid);
         if (index >= 0) {
-            System.out.println("A resume " + r + " already exists. You can update it.");
+            System.out.println("Error. The resume with id " + uuid + " already exists.");
         } else {
             if (size < STORAGE_LIMIT) {
                 insertResume(r, index);
                 size++;
             } else {
-                System.out.println("Not enough space to insert a new resume." +
+                System.out.println("Error. Not enough space to insert a new resume." +
+                        "\n Maximum number of items is " + STORAGE_LIMIT + "Storage full." +
                         "\n First delete an unnecessary resume and try again.");
             }
         }
@@ -39,8 +40,7 @@ public abstract class AbstractArrayStorage implements Storage {
             storage[index] = r;
             System.out.println("The resume " + r + " updated.");
         } else {
-            System.out.println("The resume " + r + " not found. \n" +
-                    "Unable to update a resume that does not exist. \n" +
+            System.out.println("Error. The resume with id " + r.getUuid() + " not found. \n" +
                     "Please repeat input.");
         }
     }
@@ -50,7 +50,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index >= 0) {
             return storage[index];
         }
-        System.out.println("Resume " + uuid + " not exist.");
+        System.out.println("Error. The resume with id " + uuid + " not exist.");
         return null;
     }
 
@@ -61,10 +61,9 @@ public abstract class AbstractArrayStorage implements Storage {
             movingElements(index);
             storage[size - 1] = null;
             size--;
-            System.out.println("The resume " + uuid + " has been found and deleted.");
+            System.out.println("The resume with id " + uuid + " has been found and deleted.");
         } else {
-            System.out.println("The resume " + uuid + " not found. \n" +
-                    "Unable to delete a resume that does not exist. \n" +
+            System.out.println("Error. The resume with id" + uuid + " not found. \n" +
                     "Please repeat input.");
         }
     }

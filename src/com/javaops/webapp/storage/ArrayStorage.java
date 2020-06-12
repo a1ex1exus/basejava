@@ -6,10 +6,6 @@ import com.javaops.webapp.model.Resume;
  * Array based storage for Resumes
  */
 public class ArrayStorage extends AbstractArrayStorage {
-    private static final int STORAGE_LIMIT = 10000;
-
-    private final Resume[] storage = new Resume[STORAGE_LIMIT];
-    private int size = 0;
 
     protected void insertResume(Resume r, int index) {
         storage[size] = r;

@@ -1,5 +1,5 @@
 import com.javaops.webapp.model.Resume;
-import com.javaops.webapp.storage.SortedArrayStorage;
+import com.javaops.webapp.storage.ArrayStorage;
 import com.javaops.webapp.storage.Storage;
 
 import java.io.BufferedReader;
@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
  * (just run, no need to understand)
  */
 public class MainArray {
-    private static final Storage ARRAY_STORAGE = new SortedArrayStorage();
+    private static final Storage ARRAY_STORAGE = new ArrayStorage();
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
