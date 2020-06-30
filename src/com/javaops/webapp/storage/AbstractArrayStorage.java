@@ -1,5 +1,8 @@
 package com.javaops.webapp.storage;
 
+import com.javaops.webapp.exception.ExistStorageException;
+import com.javaops.webapp.exception.NotExistStorageException;
+import com.javaops.webapp.exception.StorageException;
 import com.javaops.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -20,15 +23,13 @@ public abstract class AbstractArrayStorage implements Storage {
         String uuid = r.getUuid();
         int index = getIndex(uuid);
         if (index >= 0) {
-            System.out.println("Error. The resume with id " + uuid + " already exists.");
+            throw new ExistStorageException(r.getUuid());
         } else {
             if (size < STORAGE_LIMIT) {
                 insertResume(r, index);
                 size++;
             } else {
-                System.out.println("Error. Not enough space to insert a new resume." +
-                        "\n Maximum number of items is " + STORAGE_LIMIT + "Storage full." +
-                        "\n First delete an unnecessary resume and try again.");
+                throw new StorageException("Storage overflow.", r.getUuid());
             }
         }
     }
@@ -40,8 +41,7 @@ public abstract class AbstractArrayStorage implements Storage {
             storage[index] = r;
             System.out.println("The resume " + r + " updated.");
         } else {
-            System.out.println("Error. The resume with id " + r.getUuid() + " not found. \n" +
-                    "Please repeat input.");
+            throw new NotExistStorageException(r.getUuid());
         }
     }
 
@@ -50,8 +50,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index >= 0) {
             return storage[index];
         }
-        System.out.println("Error. The resume with id " + uuid + " not exist.");
-        return null;
+        throw new NotExistStorageException(uuid);
     }
 
     @Override
@@ -63,8 +62,7 @@ public abstract class AbstractArrayStorage implements Storage {
             size--;
             System.out.println("The resume with id " + uuid + " has been found and deleted.");
         } else {
-            System.out.println("Error. The resume with id" + uuid + " not found. \n" +
-                    "Please repeat input.");
+            throw new NotExistStorageException(uuid);
         }
     }
 

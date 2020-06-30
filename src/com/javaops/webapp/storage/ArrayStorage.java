@@ -7,10 +7,12 @@ import com.javaops.webapp.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
+    @Override
     protected void insertResume(Resume r, int index) {
         storage[size] = r;
     }
 
+    @Override
     protected void movingElements(int index) {
         storage[index] = storage[size - 1];
     }
