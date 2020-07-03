@@ -8,8 +8,8 @@ import com.javaops.webapp.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void insertResume(Resume r, int index) {
-        storage[size] = r;
+    protected void insertResume(Resume resume, int index) {
+        storage[size] = resume;
     }
 
     @Override
@@ -17,6 +17,7 @@ public class ArrayStorage extends AbstractArrayStorage {
         storage[index] = storage[size - 1];
     }
 
+    @Override
     protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equalsIgnoreCase(uuid)) {
@@ -26,5 +27,3 @@ public class ArrayStorage extends AbstractArrayStorage {
         return -1;
     }
 }
-
-
