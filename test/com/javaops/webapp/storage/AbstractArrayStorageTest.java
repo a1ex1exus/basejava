@@ -8,8 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractArrayStorageTest {
@@ -97,11 +96,12 @@ public abstract class AbstractArrayStorageTest {
     public void deleteNotExist() throws Exception {
         STORAGE.delete("dummy");
     }
+
     @Test
     public void getAll() throws Exception {
         Resume[] result = STORAGE.getAll();
         assertEquals(3, result.length);
-        System.out.println(Arrays.equals(new Resume[]{RES_1, RES_2, RES_3}, result));
+        assertArrayEquals(new Resume[]{RES_1, RES_2, RES_3}, result);
     }
 
     @Test
