@@ -11,7 +11,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-public abstract class AbstractArrayStorageTest {
+public abstract class AbstractStorageTest {
     private final Storage STORAGE;
 
     private static final String UUID_1 = "uuid1";
@@ -31,7 +31,7 @@ public abstract class AbstractArrayStorageTest {
         RES_4 = new Resume(UUID_4);
     }
 
-    protected AbstractArrayStorageTest(Storage storage) {
+    protected AbstractStorageTest(Storage storage) {
         this.STORAGE = storage;
     }
 
@@ -120,6 +120,5 @@ public abstract class AbstractArrayStorageTest {
 
     private void verifyGet(Resume resume) {
         assertEquals(resume, STORAGE.get(resume.getUuid()));
-
     }
 }
